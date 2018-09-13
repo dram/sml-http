@@ -1,2 +1,3 @@
-# sml-http
-HTTP library for Standard ML
+# SML-HTTP
+
+HTTP library for Standard ML.
