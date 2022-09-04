@@ -1,7 +1,7 @@
 .PHONY: all clean
 
 all:
-	ml-build main.cm Tests.main
+	sml -m main.cm
 	sml @SMLload main.`sml @SMLsuffix`
 
 clean:

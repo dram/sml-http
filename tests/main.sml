@@ -51,4 +51,7 @@ fun main _ =
 
       ; 0
     end
+
+val _ = SMLofNJ.exportFn ("main", main)
+
 end
