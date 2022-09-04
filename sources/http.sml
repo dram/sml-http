@@ -1,18 +1,20 @@
 structure Http :> HTTP = struct
 
+structure Method = Http_Method
+
+type Method = Method.Method
+
 structure V = Word8Vector
 
 type connection =
      (INetSock.inet, Socket.active Socket.stream) Socket.sock * string * int
 
-datatype method = MethodDelete | MethodGet | MethodPost | MethodPut
-
 type header = string * string
-type request = string * method * string * header list * V.vector
+type request = string * Method * string * header list * V.vector
 type response = int * header list * V.vector
 
 fun newRequest (host : string) : request =
-    (host, MethodGet, "/", [], V.fromList [])
+    (host, Method.Get, "/", [], V.fromList [])
 
 fun setRequestBody (body : V.vector) (request : request) : request =
     let
@@ -31,7 +33,7 @@ fun setRequestHeader
          body)
     end
 
-fun setRequestMethod (method : method) (request : request) : request =
+fun setRequestMethod (method : Method) (request : request) : request =
     let
         val (host, _, uri, headers, body) = request
     in
@@ -72,10 +74,10 @@ fun send (connection : connection) (request : request) : unit =
         val (host, method, uri, headers, body) = request
         val (sock, _, _) = connection
         val methodString = case method of
-                               MethodDelete => "DELETE"
-                             | MethodGet => "GET"
-                             | MethodPost => "POST"
-                             | MethodPut => "PUT"
+                               Method.Delete => "DELETE"
+                             | Method.Get => "GET"
+                             | Method.Post => "POST"
+                             | Method.Put => "PUT"
         val requestLine = methodString ^ " " ^ uri ^ " HTTP/1.1"
         val headers' = List.foldl
                            (fn ((k, v), acc) =>
@@ -89,8 +91,8 @@ fun send (connection : connection) (request : request) : unit =
                                    (k, v) :: acc)
                            []
                            (List.concat [headers,
-                                         if method = MethodPost
-                                            orelse method = MethodPut then
+                                         if method = Method.Post
+                                            orelse method = Method.Put then
                                              [("content-length",
                                                Int.toString (V.length body))]
                                          else

@@ -7,7 +7,7 @@ fun main _ =
     in
         (Http.send conn
          o Http.setRequestUri "/"
-         o Http.setRequestMethod Http.MethodGet) (Http.newRequest host)
+         o Http.setRequestMethod Http.Method.Get) (Http.newRequest host)
 
       ; (print
          o Byte.bytesToString
@@ -16,7 +16,7 @@ fun main _ =
 
       ; (Http.send conn
          o Http.setRequestUri "/foo"
-         o Http.setRequestMethod Http.MethodDelete) (Http.newRequest host)
+         o Http.setRequestMethod Http.Method.Delete) (Http.newRequest host)
 
       ; (print
          o Byte.bytesToString
@@ -25,7 +25,7 @@ fun main _ =
 
       ; (Http.send conn
          o Http.setRequestUri "/foo"
-         o Http.setRequestMethod Http.MethodPost
+         o Http.setRequestMethod Http.Method.Post
          o Http.setRequestHeader ("content-type", "application/json")
          o Http.setRequestBody (Byte.stringToBytes "{}"))
             (Http.newRequest host)
@@ -37,7 +37,7 @@ fun main _ =
 
       ; (Http.send conn
          o Http.setRequestUri "/foo"
-         o Http.setRequestMethod Http.MethodPut
+         o Http.setRequestMethod Http.Method.Put
          o Http.setRequestHeader ("content-type", "application/json")
          o Http.setRequestBody (Byte.stringToBytes "{1, 2}"))
             (Http.newRequest host)

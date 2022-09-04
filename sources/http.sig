@@ -1,13 +1,11 @@
 signature HTTP = sig
+    structure Method : HTTP_METHOD
+
+    type Method = Method.Method
+
     type connection
-    type method
     type request
     type response
-
-    val MethodDelete : method
-    val MethodGet : method
-    val MethodPost : method
-    val MethodPut : method
 
     val openConnection : string * int -> connection
     val closeConnection : connection -> unit
@@ -15,7 +13,7 @@ signature HTTP = sig
     val newRequest : string -> request
     val setRequestBody : Word8Vector.vector -> request -> request
     val setRequestHeader : string * string -> request -> request
-    val setRequestMethod : method -> request-> request
+    val setRequestMethod : Method -> request-> request
     val setRequestUri : string -> request -> request
 
     val send : connection -> request -> unit

@@ -1,4 +1,6 @@
 Group is
+../sources/http/method.sig
+../sources/http/method.sml
 ../sources/http.sig
 ../sources/http.sml
 main.sml
